@@ -1,5 +1,5 @@
 var squashMergeMessage = function() {
-  var squashButton = document.querySelector('.merge-message .btn-group-squash [type=submit]');
+  var squashButton = document.querySelector('.merge-message .btn-group-squash [type=button]');
   if (!squashButton) return;
 
   squashButton.addEventListener('click', function() {
