@@ -3,7 +3,7 @@ var squashMergeMessage = function() {
   if (!squashButton) return;
 
   squashButton.addEventListener('click', function() {
-    var description = document.querySelector('.comment-form-textarea[name=\'pull_request[body]\']');
+    var description = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
     if (!description) return;
 
     var messageField = document.getElementById('merge_message_field');
