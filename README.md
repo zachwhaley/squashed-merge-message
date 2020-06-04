@@ -15,13 +15,11 @@ To disable in Chrome
 1. Go to [chrome://extensions](chrome://extensions)
 2. Open Details for Refined GitHub
 3. Open Extension options
-4. Change domain to dsgithub.trendmicro.com
-5. Search for and disable `clear-pr-merge-commit-message`
+4. Search for and disable `clear-pr-merge-commit-message`
 
 To disable in Firefox
 
 1. Go to [about:addons](about:addons)
 2. Open Refined Github
 3. Open Preferences
-4. Change domain to dsgithub.trendmicro.com
-5. Search for and disable `clear-pr-merge-commit-message`
+4. Search for and disable `clear-pr-merge-commit-message`
