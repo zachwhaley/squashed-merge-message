@@ -3,9 +3,25 @@
     "description": "Use Pull Request description as Squash and Merge commit message",
     "version": "1.0",
     "manifest_version": 2,
+    "permissions": [
+		"https://github.com/*",
+		"contextMenus",
+		"activeTab" // Required for Firefox support (webext-domain-permission-toggle)
+	],
+    "optional_permissions": [
+		"http://*/*",
+		"https://*/*"
+	],
+    "background": {
+		"scripts": [
+			"webext-domain-permission-toggle.js",
+			"webext-dynamic-content-scripts.js",
+			"background.js"
+		]
+	},
     "content_scripts": [
         {
-            "matches": [ "https://*.github/" ],
+            "matches": [ "https://github.com/*" ],
             "run_at": "document_end",
             "js": [ "content.js" ]
         }
