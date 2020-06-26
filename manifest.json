@@ -6,9 +6,9 @@
   "permissions": [
     "https://github.com/*",
     "contextMenus",
-    "activeTab" // Required for Firefox support (webext-domain-permission-toggle)
+    "activeTab"
   ],
-  "browser_action": { // Required for Firefox support (webext-domain-permission-toggle)
+  "browser_action": {
     "default_icon": "squash.png"
   },
   "optional_permissions": [
