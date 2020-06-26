@@ -1,15 +1,26 @@
 {
-  "name": "Squashed Merge Message",
-  "description": "Use Pull Request description as Squash and Merge commit message",
-  "version": "1.0",
   "manifest_version": 2,
+  "name": "Squashed Merge Message",
+  "version": "1.0",
+  "description": "Use Pull Request description as Squash and Merge commit message",
+  "icons": {
+    "16": "squash-16x16.png",
+    "48": "squash-48x48.png",
+    "128": "squash-128x128.png"
+  },
+  "author": "Zach Whaley <zachbwhaley@gmail.com>",
+  "homepage_url": "https://github.com/zachwhaley/squashed-merge-message",
   "permissions": [
     "https://github.com/*",
     "contextMenus",
-    "activeTab" // Required for Firefox support (webext-domain-permission-toggle)
+    "activeTab"
   ],
-  "browser_action": { // Required for Firefox support (webext-domain-permission-toggle)
-    "default_icon": "squash.png"
+  "browser_action": {
+    "default_icon": {
+      "16": "squash-16x16.png",
+      "24": "squash-24x24.png",
+      "32": "squash-32x32.png"
+    }
   },
   "optional_permissions": [
     "http://*/*",
@@ -20,7 +31,8 @@
       "webext-domain-permission-toggle.js",
       "webext-dynamic-content-scripts.js",
       "background.js"
-    ]
+    ],
+    "persistent": false
   },
   "content_scripts": [
     {
