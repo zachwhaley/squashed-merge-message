@@ -1,7 +1,7 @@
 {
   "name": "Squashed Merge Message",
   "description": "Use Pull Request description as Squash and Merge commit message",
-  "version": "1.0",
+  "version": "1.1",
   "manifest_version": 2,
   "permissions": [
     "https://github.com/*",
