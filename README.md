@@ -1,6 +1,10 @@
 # <img src="https://user-images.githubusercontent.com/125105/85856240-fe0a0d00-b7fa-11ea-8dbc-a642dcbef613.png" width="25" height="25"> Squashed Merge Message
 
-Use Pull Request description as Squash and Merge commit message
+Use Pull Request description as Squash and Merge commit message.
+
+Fixes [isaacs/github#1025](https://github.com/isaacs/github/issues/1025)
+
+## Install
 
 [Chrome](https://chrome.google.com/webstore/detail/kgabfelbdpeifcemndligpdfddhbbmfm/)
 
