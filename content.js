@@ -1,4 +1,4 @@
-fucntion copyPrDescription() {
+function copyPrDescription() {
   const prTitleEl = document.getElementById("issue_title");
   if (!prTitleEl) return;
 
