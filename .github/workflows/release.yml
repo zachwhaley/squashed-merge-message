@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Package code
+      id: package
+      uses: kewisch/action-web-ext@v1
+      with:
+        cmd: build
+        source: ./
+
+    - name: Create release
+      id: release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+
+    - name: Upload package
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: ${{ steps.package.outputs.target }}
+        asset_name: squashed-merge-message-${{ github.ref }}.zip
+        asset_content_type: application/zip
+
+    - name: Publish to Chrome Web Store
+      uses: trmcnvn/chrome-addon@v2
+      with:
+        extension: kgabfelbdpeifcemndligpdfddhbbmfm
+        zip: ${{ steps.package.outputs.target }}
+        client-id: ${{ secrets.CHROME_CLIENT_ID }}
+        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+    - name: Publish to Firefox Add-ons
+      uses: trmcnvn/firefox-addon@v1
+      with:
+        uuid: '{288e9779-25bd-4310-b02a-23efdcca0419}'
+        xpi: ${{ steps.package.outputs.target }}
+        manifest: manifest.json
+        api-key: ${{ secrets.FIREFOX_API_KEY }}
+        api-secret: ${{ secrets.FIREFOX_API_SECRET }}
