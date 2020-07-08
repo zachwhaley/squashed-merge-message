@@ -1,4 +1,4 @@
-const copyPrDescription = function() {
+fucntion copyPrDescription() {
   const prTitleEl = document.getElementById("issue_title");
   if (!prTitleEl) return;
 
@@ -21,7 +21,7 @@ const copyPrDescription = function() {
   messageField.value = commitBody;
 }
 
-const addMergeListeners = function() {
+function addMergeListeners() {
   const squashButton = document.querySelector('.merge-message .btn-group-squash');
   const mergeButton = document.querySelector('.merge-message .btn-group-merge');
 
