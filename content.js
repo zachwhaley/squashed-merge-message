@@ -1,18 +1,38 @@
-var squashMergeMessage = function() {
-  var squashButton = document.querySelector('.merge-message .btn-group-squash');
-  
-  if (!squashButton) return;
+function copyPrDescription() {
+  const prTitleEl = document.getElementById("issue_title");
+  if (!prTitleEl) return;
 
-  squashButton.addEventListener('click', function() {
-    var description = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
-    if (!description) return;
+  const prNumberEl = document.querySelector(".gh-header-title .gh-header-number");
+  if (!prNumberEl) return;
 
-    var messageField = document.getElementById('merge_message_field');
-    if (!messageField) return;
+  const prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
+  if (!prBodyEl) return;
 
-    messageField.value = description.textContent;
-  });
+  const titleField = document.getElementById('merge_title_field');
+  if (!titleField) return;
+
+  const messageField = document.getElementById('merge_message_field');
+  if (!messageField) return;
+
+  const commitTitle = `${prTitleEl.value} (${prNumberEl.textContent})`;
+  const commitBody = prBodyEl.textContent;
+
+  titleField.value = commitTitle;
+  messageField.value = commitBody;
 }
 
-document.addEventListener('pjax:end', squashMergeMessage);
-squashMergeMessage();
+function addMergeListeners() {
+  const squashButton = document.querySelector('.merge-message .btn-group-squash');
+  const mergeButton = document.querySelector('.merge-message .btn-group-merge');
+
+  if (squashButton) {
+    squashButton.addEventListener('click', copyPrDescription);
+  }
+  if (mergeButton) {
+    mergeButton.addEventListener('click', copyPrDescription);
+  }
+
+}
+
+document.addEventListener('pjax:end', addMergeListeners);
+addMergeListeners();
