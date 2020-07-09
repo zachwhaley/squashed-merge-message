@@ -6,9 +6,11 @@ Fixes [isaacs/github#1025](https://github.com/isaacs/github/issues/1025)
 
 ## Install
 
-[Chrome](https://chrome.google.com/webstore/detail/kgabfelbdpeifcemndligpdfddhbbmfm/)
+[**Chrome** extension](https://chrome.google.com/webstore/detail/kgabfelbdpeifcemndligpdfddhbbmfm/)
+![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kgabfelbdpeifcemndligpdfddhbbmfm.svg?label=%20)
 
-[FireFox](https://addons.mozilla.org/en-US/firefox/addon/squashed-merge-message/)
+[**Firefox** add-on](https://addons.mozilla.org/en-US/firefox/addon/squashed-merge-message/)
+![Mozilla Add-on](https://img.shields.io/amo/v/squashed-merge-message.svg?label=%20)
 
 ## GitHub Enterprise
 Click on the <img
