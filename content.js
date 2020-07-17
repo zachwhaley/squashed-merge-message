@@ -21,18 +21,24 @@ function copyPrDescription() {
   messageField.value = commitBody;
 }
 
-function addMergeListeners() {
-  const squashButton = document.querySelector('.merge-message .btn-group-squash');
-  const mergeButton = document.querySelector('.merge-message .btn-group-merge');
+function addMergeListener() {
+  if (!window.location.pathname.match("/pull/[0-9]+$")) return;
 
-  if (squashButton) {
-    squashButton.addEventListener('click', copyPrDescription);
-  }
-  if (mergeButton) {
-    mergeButton.addEventListener('click', copyPrDescription);
-  }
+  const prMergePanel = document.querySelector('.js-merge-pr:not(.is-rebasing)');
+  if (!prMergePanel) return;
 
+  prMergePanel.addEventListener('details:toggled', copyPrDescription);
 }
 
-document.addEventListener('pjax:end', addMergeListeners);
-addMergeListeners();
+// Run on extension load.
+addMergeListener();
+
+// Run on session resume.
+document.addEventListener('session:resume', addMergeListener);
+
+// Run when new comments are added, removed, edited, etc.
+const comments = document.querySelector('.js-discussion');
+if (comments) {
+  const observer = new MutationObserver(addMergeListener);
+  observer.observe(comments, {childList: true});
+}
