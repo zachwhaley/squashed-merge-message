@@ -33,8 +33,8 @@ function addMergeListener(event) {
 // Run on extension load.
 addMergeListener();
 
-// Run on session resume.
-document.addEventListener('session:resume', addMergeListener);
+// Run on AJAX.
+document.addEventListener('pjax:end', addMergeListener);
 
 // Run when new comments are added, removed, edited, etc.
 const comments = document.querySelector('.js-discussion');
