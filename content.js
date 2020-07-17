@@ -1,4 +1,4 @@
-function copyPrDescription() {
+function copyPrDescription(event) {
   const prTitleEl = document.getElementById("issue_title");
   if (!prTitleEl) return;
 
@@ -21,7 +21,7 @@ function copyPrDescription() {
   messageField.value = commitBody;
 }
 
-function addMergeListener() {
+function addMergeListener(event) {
   if (!window.location.pathname.match("/pull/[0-9]+$")) return;
 
   const prMergePanel = document.querySelector('.js-merge-pr:not(.is-rebasing)');
