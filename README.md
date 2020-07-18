@@ -1,6 +1,6 @@
 # <img src="https://user-images.githubusercontent.com/125105/85856240-fe0a0d00-b7fa-11ea-8dbc-a642dcbef613.png" width="25" height="25"> Squashed Merge Message
 
-Use the Pull Request Title and Body as the [Squash] Merge commit message.
+Use Pull Request description as Squashed and Merged commit messages.
 
 Fixes [isaacs/github#1025](https://github.com/isaacs/github/issues/1025)
 
