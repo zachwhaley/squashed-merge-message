@@ -40,7 +40,7 @@ function main() {
   document.addEventListener('pjax:end', addMergeListener);
 
   // And when new comments are added, removed, edited, etc.
-  // (I don't know why, but it works ¯\_(ツ)_/¯)
+  // (Something about how GitHub refreshes the comments discards all events ¯\_(ツ)_/¯)
   const comments = document.querySelector('.js-discussion');
   if (comments) {
     const observer = new MutationObserver(addMergeListener);
