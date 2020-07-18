@@ -22,23 +22,30 @@ function copyPrDescription(event) {
 }
 
 function addMergeListener(event) {
-  if (!window.location.pathname.match("/pull/[0-9]+$")) return;
-
   const prMergePanel = document.querySelector('.js-merge-pr:not(.is-rebasing)');
   if (!prMergePanel) return;
 
   prMergePanel.addEventListener('details:toggled', copyPrDescription);
 }
 
-// Run on extension load.
-addMergeListener();
+function main() {
+  // Only run on PR pages
+  if (!window.location.pathname.match("/pull/[0-9]+$")) return;
 
-// Run on AJAX.
-document.addEventListener('pjax:end', addMergeListener);
+  // Add merge listeners on load
+  addMergeListener();
 
-// Run when new comments are added, removed, edited, etc.
-const comments = document.querySelector('.js-discussion');
-if (comments) {
-  const observer = new MutationObserver(addMergeListener);
-  observer.observe(comments, {childList: true});
+  // And on AJAX events
+  // (Happens when you switch from PR diff or commits back to merge)
+  document.addEventListener('pjax:end', addMergeListener);
+
+  // And when new comments are added, removed, edited, etc.
+  // (I don't know why, but it works ¯\_(ツ)_/¯)
+  const comments = document.querySelector('.js-discussion');
+  if (comments) {
+    const observer = new MutationObserver(addMergeListener);
+    observer.observe(comments, {childList: true});
+  }
 }
+
+main();
