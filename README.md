@@ -1,4 +1,4 @@
-# ![Squashed Merge Message](squash-24x24.png) Squashed Merge Message
+# ![Squashed Merge Message](squash-32x32.png) Squashed Merge Message
 
 Use Pull Request description as Squashed and Merged commit messages.
 
