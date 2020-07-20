@@ -1,4 +1,4 @@
-# <img src="https://user-images.githubusercontent.com/125105/85856240-fe0a0d00-b7fa-11ea-8dbc-a642dcbef613.png" width="25" height="25"> Squashed Merge Message
+# ![Squashed Merge Message](squash-24x24.png) Squashed Merge Message
 
 Use Pull Request description as Squashed and Merged commit messages.
 
@@ -6,16 +6,12 @@ Fixes [isaacs/github#1025](https://github.com/isaacs/github/issues/1025)
 
 ## Install
 
-[**Chrome** extension](https://chrome.google.com/webstore/detail/kgabfelbdpeifcemndligpdfddhbbmfm/)
-![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kgabfelbdpeifcemndligpdfddhbbmfm.svg?label=%20)
+[**Chrome** extension ![Chrome Web Store](https://img.shields.io/chrome-web-store/v/kgabfelbdpeifcemndligpdfddhbbmfm.svg?label=%20)](https://chrome.google.com/webstore/detail/kgabfelbdpeifcemndligpdfddhbbmfm/)
 
-[**Firefox** add-on](https://addons.mozilla.org/en-US/firefox/addon/squashed-merge-message/)
-![Mozilla Add-on](https://img.shields.io/amo/v/squashed-merge-message.svg?label=%20)
+[**Firefox** add-on ![Mozilla Add-on](https://img.shields.io/amo/v/squashed-merge-message.svg?label=%20)](https://addons.mozilla.org/en-US/firefox/addon/squashed-merge-message/)
 
 ## GitHub Enterprise
-Click on the <img
-src="https://user-images.githubusercontent.com/125105/85856240-fe0a0d00-b7fa-11ea-8dbc-a642dcbef613.png"
-width="25" height="25"> icon and select *Enable Squashed Merge Message on this
+Click on the ![Squashed Merge Message](squash-24x24.png) icon and select *Enable Squashed Merge Message on this
 domain* to enable the extension on your custom GitHub Enterprise domain.
 
 ## Details
