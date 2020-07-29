@@ -1,3 +1,9 @@
+function uniqueLines(arr) {
+  return arr.filter(function (value, index, self) {
+    return self.indexOf(value) === index;
+  });
+}
+
 function copyPrDescription(event) {
   const prTitleEl = document.getElementById("issue_title");
   if (!prTitleEl) return;
@@ -14,8 +20,10 @@ function copyPrDescription(event) {
   const messageField = document.getElementById('merge_message_field');
   if (!messageField) return;
 
+  const coauthors = uniqueLines(messageField.value.match(/(Co-authored-by: .*)/g));
+
   const commitTitle = `${prTitleEl.value} (${prNumberEl.textContent})`;
-  const commitBody = prBodyEl.textContent;
+  const commitBody = prBodyEl.textContent + '\n\n' + coauthors.join('\n');
 
   titleField.value = commitTitle;
   messageField.value = commitBody;
