@@ -21,10 +21,10 @@ function copyPrDescription(event) {
     prBody += '\n\n' + [...coauthors].join('\n');
   }
   // Remove leading HTML comments
-  prBody = prBody.replace(/^<!--.*?-->\n*/gs, '')
+  prBody = prBody.replace(/^<!--.*?-->\n*/gs, '');
 
   const commitTitle = `${prTitleEl.value} (${prNumberEl.textContent})`;
-  const commitBody = prBody
+  const commitBody = prBody;
 
   titleField.value = commitTitle;
   messageField.value = commitBody;
