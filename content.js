@@ -14,11 +14,12 @@ function copyPrDescription(event) {
   const messageField = document.getElementById('merge_message_field');
   if (!messageField) return;
 
-  const coauthors = new Set(messageField.value.matchAll(/Co-authored-by: .*/g));
+
+  const coauthors = new Set(messageField.value.match(/Co-authored-by: .*/g));
 
   const commitTitle = `${prTitleEl.value} (${prNumberEl.textContent})`;
-  let commitBody = prBodyEl.textContent
-  if (coauthors.length > 0) {
+  let commitBody = prBodyEl.textContent;
+  if (coauthors.size > 0) {
     commitBody += '\n\n' + [...coauthors].join('\n');
   }
 
