@@ -14,7 +14,7 @@ function copyPrDescription(event) {
   const messageField = document.getElementById('merge_message_field');
   if (!messageField) return;
 
-  const coauthors = new Set(messageField.value.match(/(Co-authored-by: .*)/g));
+  const coauthors = new Set(messageField.value.match(/Co-authored-by: .*/g));
 
   const commitTitle = `${prTitleEl.value} (${prNumberEl.textContent})`;
   let commitBody = prBodyEl.textContent;
