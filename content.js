@@ -14,13 +14,17 @@ function copyPrDescription(event) {
   const messageField = document.getElementById('merge_message_field');
   if (!messageField) return;
 
+  let prBody = prBodyEl.textContent;
+  // Preserve and de-duplicate co-authors
   const coauthors = new Set(messageField.value.match(/Co-authored-by: .*/g));
+  if (coauthors.size > 0) {
+    prBody += '\n\n' + [...coauthors].join('\n');
+  }
+  // Remove leading HTML comments
+  prBody = prBody.replace(/^<!--.*?-->\n?/gs, '')
 
   const commitTitle = `${prTitleEl.value} (${prNumberEl.textContent})`;
-  let commitBody = prBodyEl.textContent;
-  if (coauthors.size > 0) {
-    commitBody += '\n\n' + [...coauthors].join('\n');
-  }
+  const commitBody = prBody
 
   titleField.value = commitTitle;
   messageField.value = commitBody;
