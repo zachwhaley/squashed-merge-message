@@ -24,6 +24,8 @@ and body, respectively. The final commit on the base branch will look like:
 PR Title (#1234)
 
 PR Body
+
+Co-authored-by: ... (if multiple authors)
 ```
 
 ## Refined GitHub Compatibility
