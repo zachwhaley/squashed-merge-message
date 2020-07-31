@@ -18,7 +18,9 @@ domain* to enable the extension on your custom GitHub Enterprise domain.
 
 When merging a PR with either the "Squash and merge" or "Create a merge commit"
 buttons, the commit title and message will be copied from the Pull Request title
-and body, respectively. The final commit on the base branch will look like:
+and body, respectively, and any leading HTML comments will be removed.
+
+The final commit on the base branch will look like:
 
 ```
 PR Title (#1234)
