@@ -9,15 +9,13 @@ function copyPrDescription(event) {
     return;
   };
 
-  const prNumberMatch =
-      window.location.pathname.match('/pull/(?<pr_number>[0-9]+)$');
+  const prNumberMatch = window.location.pathname.match('/pull/(?<pr_number>[0-9]+)$');
   if (!prNumberMatch) {
     warn('failed to find match for PR number in URL');
     return;
   };
 
-  const prBodyEl = document.querySelector(
-      '.comment-form-textarea[name="pull_request[body]"]');
+  const prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
   if (!prBodyEl) {
     warn('failed to find PR body element');
     return;
@@ -35,8 +33,7 @@ function copyPrDescription(event) {
     return;
   };
 
-  const commitTitle =
-      `${prTitleEl.value} (${prNumberMatch.groups['pr_number']})`;
+  const commitTitle = `${prTitleEl.value} (${prNumberMatch.groups['pr_number']})`;
 
   // Remove leading HTML comments
   let commitBody = prBodyEl.textContent.replace(/^<!--.*?-->\n*/gs, '');
@@ -70,8 +67,7 @@ function main() {
   document.addEventListener('pjax:end', addMergeListener);
 
   // And when new comments are added, removed, edited, etc.
-  // (Something about how GitHub refreshes the comments discards all events
-  // ¯\_(ツ)_/¯)
+  // (Something about how GitHub refreshes the comments discards all events ¯\_(ツ)_/¯)
   const comments = document.querySelector('.js-discussion');
   if (comments) {
     const observer = new MutationObserver(addMergeListener);
