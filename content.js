@@ -33,7 +33,7 @@ function copyPrDescription(event) {
     return;
   };
 
-  const commitTitle = `${prTitleEl.value} (${prNumberMatch.groups['pr_number']})`;
+  const commitTitle = `${prTitleEl.value} (#${prNumberMatch.groups['pr_number']})`;
 
   // Remove leading HTML comments
   let commitBody = prBodyEl.textContent.replace(/^<!--.*?-->\n*/gs, '');
