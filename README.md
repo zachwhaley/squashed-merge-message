@@ -18,11 +18,13 @@ custom GitHub Enterprise domain.
 
 ## Details
 
-When merging a PR with either the "Squash and merge" or "Create a merge commit"
-buttons, the commit title and message will be copied from the Pull Request title
-and body, respectively, and any leading HTML comments will be removed.
+When merging a PR with either the "Squash and merge" or "Create a merge commit" buttons:
 
-The final commit on the base branch will look like:
+1. The commit title and message will be copied from the Pull Request.
+2. Any leading HTML comments will be removed.
+3. Co-authors will be de-duplicated and appended.
+
+The final commit on the base branch will look something like:
 
     PR Title (#1234)
 
