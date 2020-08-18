@@ -10,12 +10,6 @@ Fixes [isaacs/github#1025](https://github.com/isaacs/github/issues/1025)
 
 [**Firefox** add-on ![Mozilla Add-on](https://img.shields.io/amo/v/squashed-merge-message.svg?label=%20)](https://addons.mozilla.org/en-US/firefox/addon/squashed-merge-message/)
 
-## GitHub Enterprise
-
-Click on the <img src="squash.svg" width="24" height="24"> icon and select
-*Enable Squashed Merge Message on this domain* to enable the extension on your
-custom GitHub Enterprise domain.
-
 ## Details
 
 When merging a PR with either the "Squash and merge" or "Create a merge commit" buttons:
@@ -31,6 +25,12 @@ The final commit on the base branch will look something like:
     PR Body
 
     Co-authored-by: ... (if multiple authors)
+
+## GitHub Enterprise
+
+Click on the <img src="squash.svg" width="24" height="24"> icon and select
+*Enable Squashed Merge Message on this domain* to enable the extension on your
+custom GitHub Enterprise domain.
 
 ## Refined GitHub Compatibility
 
