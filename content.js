@@ -21,14 +21,16 @@ function copyPrDescription(event) {
     return;
   };
 
-  const titleField = document.getElementById('merge_title_field');
-  if (!titleField) {
+  // When using auto-merge, GitHub has two text fields with the same ID.
+  const titleFields = document.querySelectorAll('[id=merge_title_field]');
+  if (!titleFields.length) {
     warn('failed to find merge commit title field');
     return;
   };
 
-  const messageField = document.getElementById('merge_message_field');
-  if (!messageField) {
+  // When using auto-merge, GitHub has two text fields with the same ID.
+  const messageFields = document.querySelectorAll('[id=merge_message_field]');
+  if (!messageFields.length) {
     warn('failed to find merge commit body field');
     return;
   };
@@ -39,13 +41,13 @@ function copyPrDescription(event) {
   let commitBody = prBodyEl.textContent.replace(/^<!--.*?-->\n*/gs, '');
 
   // Preserve and de-duplicate co-authors
-  const coauthors = new Set(messageField.value.match(/Co-authored-by: .*/g));
+  const coauthors = new Set(messageFields[0].value.match(/Co-authored-by: .*/g));
   if (coauthors.size > 0) {
     commitBody += '\n\n' + [...coauthors].join('\n');
   }
 
-  titleField.value = commitTitle;
-  messageField.value = commitBody;
+  titleFields.forEach(f => f.value = commitTitle);
+  messageFields.forEach(f => f.value = commitBody);
 }
 
 function addMergeListener(event) {
