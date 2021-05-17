@@ -50,9 +50,32 @@ function copyPrDescription(event) {
   messageFields.forEach(f => f.value = commitBody);
 }
 
-function addMergeListener(event) {
-  const prMergePanel = document.querySelector('.js-merge-pr:not(.is-rebasing)');
-  if (!prMergePanel) return;
+function waitForElement(selector) {
+  return new Promise(resolve => {
+    if (document.querySelector(selector)) {
+      return resolve(document.querySelector(selector));
+    }
+
+    const observer = new MutationObserver(() => {
+      if (document.querySelector(selector)) {
+        resolve(document.querySelector(selector));
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
+}
+
+async function addMergeListener(event) {
+  const prMergePanel = await waitForElement('.js-merge-pr:not(.is-rebasing)');
+  if (!prMergePanel) {
+    warn('failed to find PR merge panel');
+    return;
+  }
 
   prMergePanel.addEventListener('details:toggled', copyPrDescription);
 }
@@ -73,7 +96,7 @@ function main() {
   const comments = document.querySelector('.js-discussion');
   if (comments) {
     const observer = new MutationObserver(addMergeListener);
-    observer.observe(comments, {childList: true});
+    observer.observe(comments, { childList: true });
   }
 }
 
