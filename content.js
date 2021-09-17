@@ -15,7 +15,7 @@ function copyPrDescription(event) {
     return;
   };
 
-  const prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
+  const prBodyEl = document.querySelector('.comment-form-textarea[name="issue[body]"]');
   if (!prBodyEl) {
     warn('failed to find PR body element');
     return;
