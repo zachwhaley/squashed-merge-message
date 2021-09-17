@@ -15,10 +15,13 @@ function copyPrDescription(event) {
     return;
   };
 
-  const prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
+  let prBodyEl = document.querySelector('.comment-form-textarea[name="issue[body]"]');
   if (!prBodyEl) {
-    warn('failed to find PR body element');
-    return;
+    prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
+    if (!prBodyEl) {
+      warn('failed to find PR body element');
+      return;
+    };
   };
 
   // When using auto-merge, GitHub has two text fields with the same ID.
