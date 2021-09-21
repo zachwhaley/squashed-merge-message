@@ -39,7 +39,6 @@
       "matches": [
         "https://github.com/*"
       ],
-      "run_at": "document_end",
       "js": [
         "content.js"
       ]

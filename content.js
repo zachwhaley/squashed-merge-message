@@ -2,7 +2,12 @@ function warn(message) {
   console.warn(`squashed-merge-message: ${message}`);
 }
 
-function copyPrDescription(event) {
+function debug(message) {
+  console.debug(`squashed-merge-message: ${message}`);
+}
+
+function copyPrDescription() {
+  debug('copy PR description');
   const prTitleEl = document.getElementById('issue_title');
   if (!prTitleEl) {
     warn('failed to find PR title element');
@@ -54,13 +59,16 @@ function copyPrDescription(event) {
 }
 
 function waitForElement(selector) {
+  debug(`wait for element ${selector}`);
   return new Promise(resolve => {
     if (document.querySelector(selector)) {
+      debug(`found element ${selector}`);
       return resolve(document.querySelector(selector));
     }
 
     const observer = new MutationObserver(() => {
       if (document.querySelector(selector)) {
+        debug(`found element ${selector}`);
         resolve(document.querySelector(selector));
         observer.disconnect();
       }
@@ -73,7 +81,8 @@ function waitForElement(selector) {
   });
 }
 
-async function addMergeListener(event) {
+async function addMergeListener() {
+  debug('add merge listener');
   const prMergePanel = await waitForElement('.js-merge-pr:not(.is-rebasing)');
   if (!prMergePanel) {
     warn('failed to find PR merge panel');
@@ -83,7 +92,24 @@ async function addMergeListener(event) {
   prMergePanel.addEventListener('details:toggled', copyPrDescription);
 }
 
+async function addPjaxEndListener() {
+  debug('add pjax:end listener');
+  document.addEventListener('pjax:end', addMergeListener);
+}
+
+async function addCommentsListener() {
+  debug('add comments listener');
+  const comments = await waitForElement('.js-discussion');
+  if (!comments) {
+    warn('failed to find comments');
+    return;
+  }
+  const observer = new MutationObserver(addMergeListener);
+  observer.observe(comments, { childList: true });
+}
+
 function main() {
+  debug('main');
   // Only run on PR pages
   if (!window.location.pathname.match('/pull/[0-9]+$')) return;
 
@@ -92,15 +118,11 @@ function main() {
 
   // And on AJAX events
   // (Happens when you switch from PR diff or commits back to merge)
-  document.addEventListener('pjax:end', addMergeListener);
+  addPjaxEndListener();
 
   // And when new comments are added, removed, edited, etc.
   // (Something about how GitHub refreshes the comments discards all events ¯\_(ツ)_/¯)
-  const comments = document.querySelector('.js-discussion');
-  if (comments) {
-    const observer = new MutationObserver(addMergeListener);
-    observer.observe(comments, { childList: true });
-  }
+  addCommentsListener();
 }
 
 main();
