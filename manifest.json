@@ -10,11 +10,6 @@
   },
   "author": "Zach Whaley <zachbwhaley@gmail.com>",
   "homepage_url": "https://github.com/zachwhaley/squashed-merge-message",
-  "permissions": [
-    "https://github.com/*",
-    "contextMenus",
-    "activeTab"
-  ],
   "action": {
     "default_icon": {
       "16": "squash-16x16.png",
@@ -23,19 +18,15 @@
     }
   },
   "host_permissions": [
-    "http://*/*",
-    "https://*/*"
+    "https://github.com/*",
+    "*://*/*"
   ],
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
-  },
   "content_scripts": [
     {
       "matches": [
-        "https://github.com/*"
+        "https://github.com/*",
+        "*://*/*"
       ],
-      "run_at": "document_end",
       "js": [
         "content.js"
       ]

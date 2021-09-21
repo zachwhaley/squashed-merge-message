@@ -2,7 +2,16 @@ function warn(message) {
   console.warn(`squashed-merge-message: ${message}`);
 }
 
-function copyPrDescription(event) {
+var DEBUG = true;
+
+function debug(message) {
+  if (DEBUG) {
+    console.debug(`squashed-merge-message: ${message}`);
+  }
+}
+
+function copyPrDescription(_) {
+  debug('copy PR description');
   const prTitleEl = document.getElementById('issue_title');
   if (!prTitleEl) {
     warn('failed to find PR title element');
@@ -51,6 +60,7 @@ function copyPrDescription(event) {
 }
 
 function waitForElement(selector) {
+  debug(`wait for element ${selector}`);
   return new Promise(resolve => {
     if (document.querySelector(selector)) {
       return resolve(document.querySelector(selector));
@@ -70,7 +80,8 @@ function waitForElement(selector) {
   });
 }
 
-async function addMergeListener(event) {
+async function addMergeListener(_) {
+  debug('add merge listener');
   const prMergePanel = await waitForElement('.js-merge-pr:not(.is-rebasing)');
   if (!prMergePanel) {
     warn('failed to find PR merge panel');
@@ -81,6 +92,7 @@ async function addMergeListener(event) {
 }
 
 function main() {
+  debug('main');
   // Only run on PR pages
   if (!window.location.pathname.match('/pull/[0-9]+$')) return;
 
@@ -95,6 +107,7 @@ function main() {
   // (Something about how GitHub refreshes the comments discards all events ¯\_(ツ)_/¯)
   const comments = document.querySelector('.js-discussion');
   if (comments) {
+    debug('comments changed');
     const observer = new MutationObserver(addMergeListener);
     observer.observe(comments, { childList: true });
   }
