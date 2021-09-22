@@ -6,7 +6,7 @@ function debug(message) {
   console.debug(`squashed-merge-message: ${message}`);
 }
 
-function copyPrDescription(_) {
+function copyPrDescription() {
   debug('copy PR description');
   const prTitleEl = document.getElementById('issue_title');
   if (!prTitleEl) {
@@ -81,7 +81,7 @@ function waitForElement(selector) {
   });
 }
 
-async function addMergeListener(_) {
+async function addMergeListener() {
   debug('add merge listener');
   const prMergePanel = await waitForElement('.js-merge-pr:not(.is-rebasing)');
   if (!prMergePanel) {
