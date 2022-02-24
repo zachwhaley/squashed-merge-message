@@ -6,28 +6,19 @@ function debug(message) {
   console.debug(`squashed-merge-message: ${message}`);
 }
 
-function copyPrDescription() {
+async function copyPrDescription() {
   debug('copy PR description');
-  const prTitleEl = document.getElementById('issue_title');
-  if (!prTitleEl) {
-    warn('failed to find PR title element');
+
+  const match = window.location.pathname.match('^/(?<repo>[^/]+/[^/]+)/pull/(?<pr_number>[0-9]+)$');
+  if (!match) {
+    warn('failed to find match for repo and PR number in URL');
     return;
   };
+  const repo = match.groups['repo'];
+  const prNumber = match.groups['pr_number'];
 
-  const prNumberMatch = window.location.pathname.match('/pull/(?<pr_number>[0-9]+)$');
-  if (!prNumberMatch) {
-    warn('failed to find match for PR number in URL');
-    return;
-  };
-
-  let prBodyEl = document.querySelector('.comment-form-textarea[name="issue[body]"]');
-  if (!prBodyEl) {
-    prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
-    if (!prBodyEl) {
-      warn('failed to find PR body element');
-      return;
-    };
-  };
+  const response = await fetch(`https://api.github.com/repos/${repo}/pulls/${prNumber}`);
+  const prMetadata = await response.json();
 
   // When using auto-merge, GitHub has two text fields with the same ID.
   const titleFields = document.querySelectorAll('[id=merge_title_field]');
@@ -43,10 +34,10 @@ function copyPrDescription() {
     return;
   };
 
-  const commitTitle = `${prTitleEl.value} (#${prNumberMatch.groups['pr_number']})`;
+  const commitTitle = `${prMetadata.title} (#${prNumber})`;
 
   // Remove leading HTML comments
-  let commitBody = prBodyEl.textContent.replace(/^<!--.*?-->\n*/gs, '');
+  let commitBody = prMetadata.body.replace(/^<!--.*?-->\n*/gs, '');
 
   // Preserve and de-duplicate co-authors
   const coauthors = new Set(messageFields[0].value.match(/Co-authored-by: .*/g));
