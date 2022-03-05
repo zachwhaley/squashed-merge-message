@@ -20,7 +20,7 @@ async function copyPrDescription() {
   let prMetadata = null;
 
   // For public repos, prefer the API.
-  if (window.location.host == 'github.com') {
+  if (window.location.host === 'github.com') {
     prMetadata = await getPrMetadataFromApi(repo, prNumber);
   }
 
