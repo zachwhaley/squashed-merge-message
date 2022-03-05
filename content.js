@@ -9,18 +9,26 @@ function debug(message) {
 async function copyPrDescription() {
   debug('copy PR description');
 
-  const match = window.location.pathname.match('^/(?<repo>[^/]+/[^/]+)/pull/(?<pr_number>[0-9]+)$');
-  if (!match) {
-    warn('failed to find match for repo and PR number in URL');
-    return;
-  };
-  const repo = match.groups['repo'];
-  const prNumber = match.groups['pr_number'];
+  let prMetadata = null;
 
-  let prMetadata = await getPrMetadataFromDocument();
-  if (!prMetadata) {
+  // For public repos, prefer the API.
+  if (window.location.host == 'github.com') {
+    const match = window.location.pathname.match('^/(?<repo>[^/]+/[^/]+)/pull/(?<pr_number>[0-9]+)$');
+    if (!match) {
+      warn('failed to find match for repo and PR number in URL');
+      return;
+    };
+    const repo = match.groups['repo'];
+    const prNumber = match.groups['pr_number'];
     prMetadata = await getPrMetadataFromApi(repo, prNumber);
   }
+
+  // If that fails, try manipulating the document.
+  if (!prMetadata) {
+    prMetadata = await getPrMetadataFromDocument();
+  }
+
+  // If that fails... we fail!
   if (!prMetadata) {
     warn('failed to pull PR metadata from document or API');
     return;
