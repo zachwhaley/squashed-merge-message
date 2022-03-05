@@ -43,7 +43,7 @@ async function copyPrDescription() {
   const commitTitle = `${prMetadata.title} (#${prNumber})`;
 
   // Remove leading HTML comments
-  let commitBody = prMetadata.body.replace(/^<!--.*?-->\n*/gs, '');
+  let commitBody = prMetadata.body.replace(/^<!--.*?-->\n*/gs, '').trim();
 
   // Preserve and de-duplicate co-authors
   const coauthors = new Set(messageFields[0].value.match(/Co-authored-by: .*/g));
