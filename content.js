@@ -96,6 +96,8 @@ async function makePrDescriptionAppear() {
   editButton.click();
   const cancelButton = await waitForElement('button.js-comment-cancel-button.btn-danger.btn');
   cancelButton.click();
+  const commitText = document.getElementById('merge_message_field');
+  commitText.focus();
 }
 
 function waitForElement(selector) {
