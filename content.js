@@ -19,7 +19,7 @@ async function copyPrDescription() {
 
   let prMetadata = await getPrMetadataFromDocument();
   if (!prMetadata) {
-    prMetadata = await getPrMetadataFromApi();
+    prMetadata = await getPrMetadataFromApi(repo, prNumber);
   }
   if (!prMetadata) {
     warn('failed to pull PR metadata from document or API');
