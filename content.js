@@ -6,28 +6,34 @@ function debug(message) {
   console.debug(`squashed-merge-message: ${message}`);
 }
 
-function copyPrDescription() {
+async function copyPrDescription() {
   debug('copy PR description');
-  const prTitleEl = document.getElementById('issue_title');
-  if (!prTitleEl) {
-    warn('failed to find PR title element');
+
+  const match = window.location.pathname.match('^/(?<repo>[^/]+/[^/]+)/pull/(?<pr_number>[0-9]+)$');
+  if (!match) {
+    warn('failed to find match for repo and PR number in URL');
     return;
   };
+  const repo = match.groups['repo'];
+  const prNumber = match.groups['pr_number'];
 
-  const prNumberMatch = window.location.pathname.match('/pull/(?<pr_number>[0-9]+)$');
-  if (!prNumberMatch) {
-    warn('failed to find match for PR number in URL');
+  let prMetadata = null;
+
+  // For public repos, prefer the API.
+  if (window.location.host === 'github.com') {
+    prMetadata = await getPrMetadataFromApi(repo, prNumber);
+  }
+
+  // If that fails, try manipulating the document.
+  if (!prMetadata) {
+    prMetadata = await getPrMetadataFromDocument();
+  }
+
+  // If that fails... we fail!
+  if (!prMetadata) {
+    warn('failed to pull PR metadata from document or API');
     return;
-  };
-
-  let prBodyEl = document.querySelector('.comment-form-textarea[name="issue[body]"]');
-  if (!prBodyEl) {
-    prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
-    if (!prBodyEl) {
-      warn('failed to find PR body element');
-      return;
-    };
-  };
+  }
 
   // When using auto-merge, GitHub has two text fields with the same ID.
   const titleFields = document.querySelectorAll('[id=merge_title_field]');
@@ -43,10 +49,10 @@ function copyPrDescription() {
     return;
   };
 
-  const commitTitle = `${prTitleEl.value} (#${prNumberMatch.groups['pr_number']})`;
+  const commitTitle = `${prMetadata.title} (#${prNumber})`;
 
   // Remove leading HTML comments
-  let commitBody = prBodyEl.textContent.replace(/^<!--.*?-->\n*/gs, '');
+  let commitBody = prMetadata.body.replace(/^<!--.*?-->\n*/gs, '').trim();
 
   // Preserve and de-duplicate co-authors
   const coauthors = new Set(messageFields[0].value.match(/Co-authored-by: .*/g));
@@ -56,6 +62,51 @@ function copyPrDescription() {
 
   titleFields.forEach(f => f.value = commitTitle);
   messageFields.forEach(f => f.value = commitBody);
+}
+
+async function getPrMetadataFromDocument() {
+  await makePrDescriptionAppear();
+
+  const prTitleEl = document.getElementById('issue_title');
+  if (!prTitleEl) {
+    warn('failed to find PR title element');
+    return null;
+  }
+
+  let prBodyEl = document.querySelector('.comment-form-textarea[name="issue[body]"]');
+  if (!prBodyEl) {
+    prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
+    if (!prBodyEl) {
+      warn('failed to find PR body element');
+      return null;
+    }
+  }
+
+  return {
+    title: prTitleEl.value,
+    body: prBodyEl.textContent,
+  };
+}
+
+async function getPrMetadataFromApi(repo, prNumber) {
+  const response = await fetch(`https://api.github.com/repos/${repo}/pulls/${prNumber}`);
+  const prMetadata = await response.json();
+  return {
+    // These could be null in some cases, so replace nulls with empty strings.
+    title: prMetadata.title || '',
+    body: prMetadata.body || '',
+  };
+}
+
+async function makePrDescriptionAppear() {
+  const detailsButton = document.querySelector('.timeline-comment-actions details:last-child summary[role="button"]');
+  detailsButton.click();
+  const editButton = await waitForElement('details-menu > button.dropdown-item.btn-link.js-comment-edit-button');
+  editButton.click();
+  const cancelButton = await waitForElement('button.js-comment-cancel-button.btn-danger.btn');
+  cancelButton.click();
+  const commitText = document.getElementById('merge_message_field');
+  commitText.focus();
 }
 
 function waitForElement(selector) {
