@@ -17,8 +17,14 @@ async function copyPrDescription() {
   const repo = match.groups['repo'];
   const prNumber = match.groups['pr_number'];
 
-  const response = await fetch(`https://api.github.com/repos/${repo}/pulls/${prNumber}`);
-  const prMetadata = await response.json();
+  let prMetadata = await getPrMetadataFromDocument();
+  if (!prMetadata) {
+    prMetadata = await getPrMetadataFromApi();
+  }
+  if (!prMetadata) {
+    warn('failed to pull PR metadata from document or API');
+    return;
+  }
 
   // When using auto-merge, GitHub has two text fields with the same ID.
   const titleFields = document.querySelectorAll('[id=merge_title_field]');
@@ -47,6 +53,49 @@ async function copyPrDescription() {
 
   titleFields.forEach(f => f.value = commitTitle);
   messageFields.forEach(f => f.value = commitBody);
+}
+
+async function getPrMetadataFromDocument() {
+  await makePrDescriptionAppear();
+
+  const prTitleEl = document.getElementById('issue_title');
+  if (!prTitleEl) {
+    warn('failed to find PR title element');
+    return null;
+  }
+
+  let prBodyEl = document.querySelector('.comment-form-textarea[name="issue[body]"]');
+  if (!prBodyEl) {
+    prBodyEl = document.querySelector('.comment-form-textarea[name="pull_request[body]"]');
+    if (!prBodyEl) {
+      warn('failed to find PR body element');
+      return null;
+    }
+  }
+
+  return {
+    title: prTitleEl.value,
+    body: prBodyEl.textContent,
+  };
+}
+
+async function getPrMetadataFromApi(repo, prNumber) {
+  const response = await fetch(`https://api.github.com/repos/${repo}/pulls/${prNumber}`);
+  const prMetadata = await response.json();
+  return {
+    // These could be null in some cases, so replace nulls with empty strings.
+    title: prMetadata.title || '',
+    body: prMetadata.body || '',
+  };
+}
+
+async function makePrDescriptionAppear() {
+  const detailsButton = document.querySelector('.timeline-comment-actions details:last-child summary[role="button"]');
+  detailsButton.click();
+  const editButton = await waitForElement('details-menu > button.dropdown-item.btn-link.js-comment-edit-button');
+  editButton.click();
+  const cancelButton = await waitForElement('button.js-comment-cancel-button.btn-danger.btn');
+  cancelButton.click();
 }
 
 function waitForElement(selector) {
