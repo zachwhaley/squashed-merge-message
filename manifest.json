@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Squashed Merge Message",
-  "version": "4.11",
+  "version": "4.12",
   "description": "Use Pull Request description as Squashed and Merged commit messages",
   "icons": {
     "16": "squash-16x16.png",
