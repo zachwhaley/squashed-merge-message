@@ -13,7 +13,7 @@ async function copyPrDescription() {
   if (!match) {
     warn('failed to find match for repo and PR number in URL');
     return;
-  };
+  }
   const repo = match.groups['repo'];
   const prNumber = match.groups['pr_number'];
 
@@ -40,14 +40,14 @@ async function copyPrDescription() {
   if (!titleFields.length) {
     warn('failed to find merge commit title field');
     return;
-  };
+  }
 
   // When using auto-merge, GitHub has two text fields with the same ID.
   const messageFields = document.querySelectorAll('[id=merge_message_field]');
   if (!messageFields.length) {
     warn('failed to find merge commit body field');
     return;
-  };
+  }
 
   const commitTitle = `${prMetadata.title} (#${prNumber})`;
 
