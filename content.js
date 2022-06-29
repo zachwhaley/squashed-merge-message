@@ -89,17 +89,22 @@ async function getPrMetadataFromDocument() {
 }
 
 async function getPrMetadataFromApi(repo, prNumber) {
-  const response = await fetch(`https://api.github.com/repos/${repo}/pulls/${prNumber}`);
-  if (!response.ok) {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${repo}/pulls/${prNumber}`);
+    if (!response.ok) {
+      return null;
+    }
+
+    const prMetadata = await response.json();
+    return {
+      // These could be null in some cases, so replace nulls with empty strings.
+      title: prMetadata.title || '',
+      body: prMetadata.body || '',
+    };
+  } catch (error) {
+    warn('failed to fetch PR metadata from API: ' + error);
     return null;
   }
-
-  const prMetadata = await response.json();
-  return {
-    // These could be null in some cases, so replace nulls with empty strings.
-    title: prMetadata.title || '',
-    body: prMetadata.body || '',
-  };
 }
 
 async function makePrDescriptionAppear() {
