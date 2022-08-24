@@ -2,7 +2,18 @@
 
 Use Pull Request description as Squashed and Merged commit messages.
 
-Fixes [isaacs/github#1025](https://github.com/isaacs/github/issues/1025)
+## ‼️ **Support Notice** ‼️
+
+**GitHub has native support for controlling the default merge message** 🎉
+
+See the GitHub [announcement](https://github.blog/changelog/2022-08-23-new-options-for-controlling-the-default-commit-message-when-merging-a-pull-request/) for details.
+
+As such, I recommend all GitHub patrons use GitHub's _default merge message_ feature instead of this web extension to both take advantage of native feature support and avoid any compatibility issues between this web extension and GitHub's implementation.
+
+Support for Squashed Merge Message will continue until GitHub's _default merge message_ feaure is added to GitHub Enterprise.
+At that time, support for Squashed Merge Message will begin to sunset and eventually stop.
+
+Thank you all for your support and contributions! 💙
 
 ## Install
 
