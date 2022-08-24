@@ -10,7 +10,7 @@ See the GitHub [announcement](https://github.blog/changelog/2022-08-23-new-optio
 
 As such, I recommend all GitHub patrons use GitHub's _default merge message_ feature instead of this web extension to both take advantage of native feature support and avoid any compatibility issues between this web extension and GitHub's implementation.
 
-Support for Squashed Merge Message will continue until GitHub's _default merge message_ feaure is added to GitHub Enterprise.
+Support for Squashed Merge Message will continue until GitHub's _default merge message_ feature is added to GitHub Enterprise.
 At that time, support for Squashed Merge Message will begin to sunset and eventually stop.
 
 Thank you all for your support and contributions! 💙
